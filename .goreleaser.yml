@@ -12,10 +12,10 @@ builds:
       - linux
     goarch:
       - amd64
-    binary: 'bootstrap'
+    binary: 'main'
 archives:
   - format: zip
-    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    name_template: 's3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 release:
 changelog:
   skip: true
