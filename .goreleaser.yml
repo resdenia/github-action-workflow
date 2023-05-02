@@ -1,10 +1,8 @@
-env:
-  - TAG_VERSION={{ index (split .Version "-") 0 }}
-  - TYPE_INTEGRSTION={{ .Version }}
 before:
   hooks:
 builds:
   -
+    id: s3Hook
     env:
       - CGO_ENABLED=0
     mod_timestamp: '{{ .CommitTimestamp }}'
@@ -17,15 +15,34 @@ builds:
     goarch:
       - amd64
     binary: 'main'
-    dir: >-
-    {{- if eq (index (split .Version "-") 1) "CT" }}./control_tower
-    {{- else }}.{{ end }}
-      
+  -  
+    id: controltower
+    env:
+      - CGO_ENABLED=0
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    flags:
+      - -trimpath
+    ldflags:
+      - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}}'
+    goos:
+      - linux
+    goarch:
+      - amd64
+    binary: 'main'
+    dir: ./control_tower  
 archives:
-  -
+  - 
+    id: controlTowerArchive
+    builds: [controltower]
     format: zip
     name_template:  >-
-      {{ if eq (index (split .Version "-") 1) "CT" }}control_tower{{ else }}s3-hook{{ end }}_{{ index (split .Version "-") 0 }}_{{ .Os }}_{{ .Arch }}
+      control_tower_{{ if eq (index (split .Version "-") 1) "CT" }}{{ index (split .Version "-") 0 }}_{{ end }}{{ .Os }}_{{ .Arch }}
+  - 
+    id: s3hookArchive
+    builds: [s3hook]
+    format: zip
+    name_template:  >-
+      s3-hook_{{ if eq (index (split .Version "-") 1) "CT" }}{{ else }}{{ index (split .Version "-") 0 }}_{{ end }}{{ .Os }}_{{ .Arch }}
 release:
 changelog:
   skip: true
