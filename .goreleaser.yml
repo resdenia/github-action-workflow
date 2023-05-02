@@ -14,9 +14,9 @@ builds:
       - linux
     goarch:
       - amd64
-    dir: >-
-      {{- if contains .Version  "CT" }}./control_tower
-      {{- else }}.{{ end }}
+    {{- if contains .Version "CT" }}
+    dir: ./control_tower
+    {{- end }}
     binary: 'main'
 archives:
   - 
