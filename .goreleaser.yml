@@ -1,6 +1,6 @@
-env:
-  - TAG_VERSION={{ index split .Version "-" 0 }}
-  - TYPE_RELEASE={{ index split .Version "-" 1 }}
+variables:
+  tagVersion: '{{ index split .Version "-" 0 }}'
+  typeVersion: '{{ index split .Version "-" 1 }}'
 before:
   hooks:
 builds:
@@ -29,7 +29,7 @@ archives:
     builds: [controlTower]
     format: zip
     name_template:  >-
-      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.TAG_VERSION }}_{{ .Env.TYPE_RELEASE }}
+      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Var.tagVersion }}_{{ .Var.typeVersion }}
 release:
 changelog:
   skip: true
