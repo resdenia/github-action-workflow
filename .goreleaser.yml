@@ -7,6 +7,7 @@ builds:
   -
     env:
       - CGO_ENABLED=0
+      - PATH_MAIN={{ if eq (index (split .Version "-") 1) "CT" }}./control_tower{{ else }}.{{ end }}
     mod_timestamp: '{{ .CommitTimestamp }}'
     flags:
       - -trimpath
@@ -17,8 +18,8 @@ builds:
     goarch:
       - amd64
     binary: 'main'
-    dir: >-
-      {{ if eq (index (split .Version "-") 1) "CT" }}./control_tower{{ else }}.{{ end }}
+    dir: {{.Env.PATH_MAIN}}
+      
 archives:
   -
     format: zip
