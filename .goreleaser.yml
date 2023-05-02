@@ -1,5 +1,5 @@
 env:
-  - TAG_VERSION={{ index split .Tag "-" 0 }}
+  - TAG_VERSION={{ split .Tag "-" }}
   # - TYPE_INTEGRSTION={{ index (split .Version "-") 1 }}
 before:
   hooks:
