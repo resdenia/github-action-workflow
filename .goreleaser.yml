@@ -1,7 +1,9 @@
 before:
   hooks:
 builds:
-  - env:
+  - 
+    id: s3Hook
+    env:
       - CGO_ENABLED=0
     mod_timestamp: '{{ .CommitTimestamp }}'
     flags:
@@ -13,9 +15,32 @@ builds:
     goarch:
       - amd64
     binary: 'main'
+ - 
+    id: controlTower
+    env:
+      - CGO_ENABLED=0
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    flags:
+      - -trimpath
+    ldflags:
+      - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}}'
+    goos:
+      - linux
+    goarch:
+      - amd64
+    main: ./control_tower
+    binary: 'main'
 archives:
-  - format: zip
+  - 
+    id: s3HookArchive
+    builds: [s3Hook]
+    format: zip
     name_template: 's3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+  - 
+    id: controlTowerArchive
+    builds: [controlTower]
+    format: zip
+    name_template: 'controlTower_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 release:
 changelog:
   skip: true
