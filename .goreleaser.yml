@@ -15,7 +15,7 @@ builds:
     goarch:
       - amd64
     dir: >-
-        {{if .Version == *"CT"*}}./control_tower{{else}}.{{- end }}
+        {{if .Version == *"CT"*}}./control_tower{{else}}.{{end }}
     binary: 'main'
 archives:
   - 
@@ -28,7 +28,7 @@ archives:
     builds: [controlTower]
     format: zip
     name_template:  >-
-      {{if .Version == *"CT"*}}control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{else}}s3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }} {{- end }}
+      {{if .Version == *"CT"*}}control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{else}}s3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }} {{end }}
 release:
 changelog:
   skip: true
