@@ -1,7 +1,7 @@
 before:
   hooks:
 builds:
-
+  -
     id: controlTower
     env:
       - CGO_ENABLED=0
@@ -28,7 +28,7 @@ archives:
     builds: [controlTower]
     format: zip
     name_template:  >-
-      {{- if eq .Version *"CT"* }}control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{- else }}s3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }} {{ end }}
+      {{- if eq .Version *"CT"* }}control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{- else }}s3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }} {{end }}
 release:
 changelog:
   skip: true
