@@ -45,9 +45,9 @@ jobs:
           version=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f1)
           integraion=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f2)
           if [integraion == "CT"]; then
-            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/control_tower_${{ github.event.release.tag_name }}_linux_amd64.zip -O function.zip
+            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/control_tower_${version}_linux_amd64.zip -O function.zip
           else
-            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/s3-hook_${{ github.event.release.tag_name }}_linux_amd64.zip -O function.zip
+            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/s3-hook_${version}_linux_amd64.zip -O function.zip
         shell: bash
       - name: create new version
         run: |
