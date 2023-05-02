@@ -28,7 +28,7 @@ builds:
       - linux
     goarch:
       - amd64
-    main: ./control_tower
+    dir: ./control_tower
     binary: 'main'
 archives:
   - 
