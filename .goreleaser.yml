@@ -1,7 +1,6 @@
 env:
-  - ARR_VERSION={{ split .Version "-" }}
-  - TAG_VERSION={{ index .Env.ARR_VERSION 0 }}
-  - TYPE_RELEASE={{ index .Env.ARR_VERSION 1 }}
+  - TAG_VERSION={{ index split .Version "-" 0 }}
+  - TYPE_RELEASE={{ index split .Version "-" 1 }}
 before:
   hooks:
 builds:
