@@ -39,7 +39,7 @@ archives:
       control_tower_{{ if eq (index (split .Version "-") 1) "CT" }}{{ index (split .Version "-") 0 }}_{{ end }}{{ .Os }}_{{ .Arch }}
   - 
     id: s3hookArchive
-    builds: [s3hook]
+    builds: [s3Hook]
     format: zip
     name_template:  >-
       s3-hook_{{ if eq (index (split .Version "-") 1) "CT" }}{{ else }}{{ index (split .Version "-") 0 }}_{{ end }}{{ .Os }}_{{ .Arch }}
