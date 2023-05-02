@@ -45,9 +45,9 @@ jobs:
           version=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f1)
           integraion=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f2)
           if [integraion == "CT"]; then
-            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/control_tower_${version}_linux_amd64.zip -O function.zip
+            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/control_tower_${{version}}_linux_amd64.zip -O function.zip
           else
-            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/s3-hook_${version}_linux_amd64.zip -O function.zip
+            wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/s3-hook_${{version}}_linux_amd64.zip -O function.zip
         shell: bash
       - name: create new version
         run: |
@@ -58,7 +58,7 @@ jobs:
           else
             cp ./sam-template.yaml ./sam-template-${{ matrix.aws_region }}.yaml
           fi
-          sed -i "s/<<VERSION>>/${version:1}/" "./sam-template-${{ matrix.aws_region }}.yaml"
+          sed -i "s/<<VERSION>>/${{version:1}}/" "./sam-template-${{ matrix.aws_region }}.yaml"
           sed -i "s/<<REGION>>/${{ matrix.aws_region }}/" "./sam-template-${{ matrix.aws_region }}.yaml"
         shell: bash
       - name: Upload to aws
@@ -71,11 +71,11 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
           aws configure set region ${{ matrix.aws_region }}
           if [integraion == "CT"]; then
-          aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket/s3-hook/control-tower/${version:1}/sam-template.yaml --acl public-read
-            aws s3 cp ./function.zip s3://tmpdata-bucket-${{ matrix.aws_region }}/s3-hook/control-tower/${version:1}/function.zip --acl public-read
+          aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket/s3-hook/control-tower/${{version:1}}/sam-template.yaml --acl public-read
+            aws s3 cp ./function.zip s3://tmpdata-bucket-${{ matrix.aws_region }}/s3-hook/control-tower/${{version:1}}/function.zip --acl public-read
           else
-            aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket}/s3-hook/${version:1}/sam-template.yaml --acl public-read
-            aws s3 cp ./function.zip s3://tmpdata-bucket/s3-hook/${version:1}/function.zip --acl public-read
+            aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket}/s3-hook/${{version:1}}/sam-template.yaml --acl public-read
+            aws s3 cp ./function.zip s3://tmpdata-bucket/s3-hook/${{version:1}}/function.zip --acl public-read
           fi
         shell: bash
       - name: Clean
