@@ -1,3 +1,7 @@
+env:
+  - ARR_VERSION={{ split .Version "-" }}
+  - TAG_VERSION={{ index .Env.ARR_VERSION 0 }}
+  - TYPE_RELEASE={{ index .Env.ARR_VERSION 1 }}
 before:
   hooks:
 builds:
@@ -14,9 +18,6 @@ builds:
       - linux
     goarch:
       - amd64
-    {{- if contains .Version "CT" }}
-    dir: ./control_tower
-    {{- end }}
     binary: 'main'
 archives:
   - 
@@ -29,9 +30,7 @@ archives:
     builds: [controlTower]
     format: zip
     name_template:  >-
-      {{- if contains .Version "CT" }}
-      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}
-      {{- else }}s3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ end }}
+      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}_{{ .Env.TAG_VERSION }}_{{ .Env.TYPE_RELEASE }}
 release:
 changelog:
   skip: true
