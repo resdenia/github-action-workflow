@@ -29,7 +29,7 @@ archives:
     builds: [controlTower]
     format: zip
     name_template:  >-
-      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}__{{ .Env.TAG_VERSION  }}__{{ .Env.TYPE_INTEGRSTION  }}
+      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}__{{ index (split .Version "-") 0 }}__{{ .Env.TYPE_INTEGRSTION  }}
 release:
 changelog:
   skip: true
