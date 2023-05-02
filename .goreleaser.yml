@@ -17,7 +17,8 @@ builds:
     goarch:
       - amd64
     binary: 'main'
-    dir: '{{ if eq (index (split .Version "-") 1) "CT" }}./control_tower{{ else }}.{{ end }}'
+    dir: >-
+      {{ if eq (index (split .Version "-") 1) "CT" }}./control_tower{{ else }}.{{ end }}
 archives:
   -
     format: zip
