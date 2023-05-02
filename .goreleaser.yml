@@ -5,7 +5,6 @@ before:
   hooks:
 builds:
   -
-    id: controlTower
     env:
       - CGO_ENABLED=0
     mod_timestamp: '{{ .CommitTimestamp }}'
@@ -18,18 +17,13 @@ builds:
     goarch:
       - amd64
     binary: 'main'
+    dir: >-
+    {{ if eq (index (split .Version "-") 1) "CT" }}./control_tower{{ else }}.{{ end }}
 archives:
-  - 
-    id: s3HookArchive
-    builds: [s3Hook]
-    format: zip
-    name_template: 's3-hook_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
-  - 
-    id: controlTowerArchive
-    builds: [controlTower]
+  -
     format: zip
     name_template:  >-
-      control_tower_{{ .Version }}_{{ .Os }}_{{ .Arch }}__{{ index (split .Version "-") 0 }}__{{ .Env.TYPE_INTEGRSTION  }}
+      {{ if eq (index (split .Version "-") 1) "CT" }}control_tower{{ else }}s3-hook{{ end }}_{{ index (split .Version "-") 0 }}_{{ .Os }}_{{ .Arch }}
 release:
 changelog:
   skip: true
