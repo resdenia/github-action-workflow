@@ -59,9 +59,8 @@ jobs:
       #    echo '::set-output name=VERSION_CLEAN::$(echo "${${{ steps.integration-receiver.outputs.VERSION }}:1}")'
       - name: download zip
         run: |
-          version=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f1)
-          integraion=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f2)
-          if [${{ steps.integration-receiver.outputs.INTEGRATION }} == "CT"]; then
+
+          if [["${{ steps.integration-receiver.outputs.INTEGRATION }}" = "CT"]]; then
             wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/control_tower_${{ steps.version-receiver.outputs.VERSION }}_linux_amd64.zip -O function.zip
           else
             wget -c https://github.com/resdenia/github-action-workflow/releases/download/${{ github.event.release.tag_name }}/s3-hook_${{ steps.version-receiver.outputs.VERSION }}_linux_amd64.zip -O function.zip
@@ -70,7 +69,7 @@ jobs:
       - name: create new version
         run: |
 
-          if [${{ steps.integration-receiver.outputs.INTEGRATION }} == "CT"]; then
+          if [["${{ steps.integration-receiver.outputs.INTEGRATION }}" = "CT"]]; then
             cp ./control-tower/sam-template.yaml ./sam-template-${{ matrix.aws_region }}.yaml
           else
             cp ./sam-template.yaml ./sam-template-${{ matrix.aws_region }}.yaml
@@ -86,7 +85,7 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
           aws configure set region ${{ matrix.aws_region }}
-          if [${{ steps.integration-receiver.outputs.INTEGRATION }} == "CT"]; then
+          if [["${{ steps.integration-receiver.outputs.INTEGRATION }}" = "CT"]]; then
           aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket/s3-hook/control-tower/${{ steps.version-receiver-without.outputs.VERSION_CLEAN }}/sam-template.yaml --acl public-read
             aws s3 cp ./function.zip s3://tmpdata-bucket-${{ matrix.aws_region }}/s3-hook/control-tower/${{ steps.version-receiver-without.outputs.VERSION_CLEAN }}/function.zip --acl public-read
           else
