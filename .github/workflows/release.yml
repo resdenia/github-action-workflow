@@ -55,7 +55,7 @@ jobs:
         id: version-receiver-without
         run: |
          version=$(echo "${{ github.event.release.tag_name }}" | cut -d- -f1)
-         version_without = $(echo ${version:1})
+         version_without=${version:1}
          echo '::set-output name=VERSION_CLEAN::version_without'
       - name: download zip
         run: |
