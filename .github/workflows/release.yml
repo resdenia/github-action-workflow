@@ -80,7 +80,7 @@ jobs:
           aws configure set region ${{ matrix.aws_region }}
           if [[ "${{ env.integration }}" = "CT" ]]; then
           aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket/s3-hook/control-tower/${{ env.version_without }}/sam-template.yaml --acl public-read
-            aws s3 cp ./function.zip s3://tmpdata-bucket-${{ matrix.aws_region }}/s3-hook/control-tower/${{ env.version_without }}/function.zip --acl public-read
+            aws s3 cp ./function.zip s3://tmpdata-bucket/s3-hook/control-tower/${{ env.version_without }}/function.zip --acl public-read
           else
             aws s3 cp ./sam-template-${{ matrix.aws_region }}.yaml s3://tmpdata-bucket/s3-hook/${{ env.version_without }}/sam-template.yaml --acl public-read
             aws s3 cp ./function.zip s3://tmpdata-bucket/s3-hook/${{ env.version_without }}/function.zip --acl public-read
