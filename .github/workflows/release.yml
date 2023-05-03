@@ -63,7 +63,7 @@ jobs:
       - name: create new version
         run: |
           if [[ "${{ env.integration }}" = "CT" ]]; then
-            cp ./control-tower/sam-template.yaml ./sam-template-${{ matrix.aws_region }}.yaml
+            cp ./control_tower/sam-template.yaml ./sam-template-${{ matrix.aws_region }}.yaml
           else
             cp ./sam-template.yaml ./sam-template-${{ matrix.aws_region }}.yaml
           fi
