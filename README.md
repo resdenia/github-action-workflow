@@ -116,3 +116,6 @@ For more details [click here](https://github.com/logzio/s3-hook/tree/master/cont
 - **0.0.2**:
   - **Bug fix**: Decodes folder names, for folders with special characters.
 - **0.0.1**: Initial release.
+
+
+<!-- Security scan triggered at 2026-09-05 07:42:27 -->
